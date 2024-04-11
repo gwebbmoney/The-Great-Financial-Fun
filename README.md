@@ -1,1 +1,3 @@
-# The-Great-Financial-Fun
+# The Great Financial Fun
+
+# Streamlit Applications
