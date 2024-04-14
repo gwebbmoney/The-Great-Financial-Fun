@@ -14,10 +14,18 @@ intu = yf.Ticker('INTU')
 sap = yf.Ticker('SAP')
 
 #Income Statements
-orcl_yoy_income_stmt = yf.Ticker.get_income_stmt(orcl)
+def get_multiple_income_statements(ticker_symbols):
+    income_statements = {}
+    for symbol in ticker_symbols:
+        ticker = yf.Ticker(symbol)
+        income_statements[symbol] = yf.Ticker.get_income_stmt(ticker)
+    return income_statements
 
-df1 = pd.DataFrame(orcl_yoy_income_stmt)
+ticker_symbols = ['ORCL', 'MSFT', 'GOOGL', 'ADBE', 'CRM', 'CSCO', 'INTU', 'SAP']
 
+income_statements = get_multiple_income_statements(ticker_symbols)
+
+print(income_statements['MSFT'])
 #Desired order for income statement
 orcl_desired_index_order =[
     'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
@@ -33,21 +41,205 @@ orcl_desired_index_order =[
     'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
 ]
 
-ordered_income_statement = df1.reindex(orcl_desired_index_order)
+msft_desired_index_order = [
+    'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
 
-st.dataframe(
-    ordered_income_statement,
-    column_config={
-        "": st.column_config.Column("Breakdown", width="1800"),
-        "2023-05-31 00:00:00": "2023",
-        "2022-05-31 00:00:00": "2022",
-        "2021-05-31 00:00:00": "2021",
-        "2020-05-31 00:00:00": "2020"
-    },
-    width=1600,
-    height=700
-)
+googl_desired_index_order = [ 'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
+
+adbe_desired_index_order = [ 'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
+
+crm_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
+
+csco_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
+
+intu_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
+
+sap_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
+    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
+    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
+    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
+    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
+    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
+    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
+    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
+    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
+]
 
 
+orcl_income_statement = income_statements['ORCL'].reindex(orcl_desired_index_order)
+msft_income_statement = income_statements['MSFT'].reindex(msft_desired_index_order)
+googl_income_statement = income_statements['GOOGL'].reindex(googl_desired_index_order)
+adbe_income_statement = income_statements['ADBE'].reindex(adbe_desired_index_order)
+crm_income_statement = income_statements['CRM'].reindex(crm_desired_index_order)
+csco_income_statement = income_statements['CSCO'].reindex(csco_desired_index_order)
+intu_income_statement = income_statements['INTU'].reindex(csco_desired_index_order)
+sap_income_statement = income_statements['SAP'].reindex(csco_desired_index_order)
 
+tab1, tab2, tab3, tab4 = st.tabs(["Income Statements", "Balance Sheet Statements", "Cash Flow Statements", "Fundamental Ratios"])
 
+with tab1:
+    st.dataframe(
+        orcl_income_statement,
+        column_config={
+            "": st.column_config.Column("Oracle", width="1800"),
+            "2023-05-31 00:00:00": "2023",
+            "2022-05-31 00:00:00": "2022",
+            "2021-05-31 00:00:00": "2021",
+            "2020-05-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        msft_income_statement,
+        column_config={
+            "": st.column_config.Column("Microsoft", width="1800"),
+            "2023-06-30 00:00:00": "2023",
+            "2022-06-30 00:00:00": "2022",
+            "2021-06-30 00:00:00": "2021",
+            "2020-06-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        googl_income_statement,
+        column_config={
+            "": st.column_config.Column("Google", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        adbe_income_statement,
+        column_config={
+            "": st.column_config.Column("Adobe", width="1800"),
+            "2023-11-30 00:00:00": "2023",
+            "2022-11-30 00:00:00": "2022",
+            "2021-11-30 00:00:00": "2021",
+            "2020-11-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        crm_income_statement,
+        column_config={
+            "": st.column_config.Column("Salesforce", width="1800"),
+            "2024-01-31 00:00:00": "2023",
+            "2022-01-31 00:00:00": "2022",
+            "2021-01-31 00:00:00": "2021",
+            "2020-01-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        csco_income_statement,
+        column_config={
+            "": st.column_config.Column("Cisco", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        intu_income_statement,
+        column_config={
+            "": st.column_config.Column("Intuit", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        sap_income_statement,
+        column_config={
+            "": st.column_config.Column("SAP", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+    
