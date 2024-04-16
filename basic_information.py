@@ -25,7 +25,52 @@ ticker_symbols = ['ORCL', 'MSFT', 'GOOGL', 'ADBE', 'CRM', 'CSCO', 'INTU', 'SAP']
 
 income_statements = get_multiple_income_statements(ticker_symbols)
 
-print(income_statements['MSFT'])
+# Calculate profitability ratios
+def gross_margin(income_statements):
+    grossmargin = {}
+    for keys in income_statements.keys():
+        grossmargin[keys] = income_statements[keys].loc['GrossProfit']/income_statements[keys].loc['TotalRevenue']
+        grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+    df1 = pd.DataFrame(grossmargin)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
+def operating_margin(income_statements):
+    grossmargin = {}
+    for keys in income_statements.keys():
+        grossmargin[keys] = income_statements[keys].loc['OperatingIncome']/income_statements[keys].loc['TotalRevenue']
+        grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+    df1 = pd.DataFrame(grossmargin)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
+def ebitda_margin(income_statements):
+    grossmargin = {}
+    for keys in income_statements.keys():
+        grossmargin[keys] = income_statements[keys].loc['EBITDA']/income_statements[keys].loc['TotalRevenue']
+        grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+    df1 = pd.DataFrame(grossmargin)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
+def ebit_margin(income_statements):
+    grossmargin = {}
+    for keys in income_statements.keys():
+        grossmargin[keys] = income_statements[keys].loc['EBIT']/income_statements[keys].loc['TotalRevenue']
+        grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+    df1 = pd.DataFrame(grossmargin)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
+def net_profit_margin(income_statements):
+    grossmargin = {}
+    for keys in income_statements.keys():
+        grossmargin[keys] = income_statements[keys].loc['NetIncome']/income_statements[keys].loc['TotalRevenue']
+        grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+    df1 = pd.DataFrame(grossmargin)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
 #Desired order for income statement
 orcl_desired_index_order =[
     'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
@@ -126,7 +171,7 @@ sap_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 
     'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
 ]
 
-
+#All income statements
 orcl_income_statement = income_statements['ORCL'].reindex(orcl_desired_index_order)
 msft_income_statement = income_statements['MSFT'].reindex(msft_desired_index_order)
 googl_income_statement = income_statements['GOOGL'].reindex(googl_desired_index_order)
@@ -135,6 +180,7 @@ crm_income_statement = income_statements['CRM'].reindex(crm_desired_index_order)
 csco_income_statement = income_statements['CSCO'].reindex(csco_desired_index_order)
 intu_income_statement = income_statements['INTU'].reindex(csco_desired_index_order)
 sap_income_statement = income_statements['SAP'].reindex(csco_desired_index_order)
+
 
 tab1, tab2, tab3, tab4 = st.tabs(["Income Statements", "Balance Sheet Statements", "Cash Flow Statements", "Fundamental Ratios"])
 
@@ -242,4 +288,22 @@ with tab1:
         width=1600,
         height=400
     )
-    
+
+with tab4:
+    col1, col2 = st.columns(2)
+    col1.subheader("Gross Margin")
+    col1.dataframe(gross_margin(income_statements))
+
+    col2.subheader("Operating Margin")
+    col2.dataframe(operating_margin(income_statements))
+
+    col3, col4 = st.columns(2)
+    col3.subheader("EBITDA Margin")
+    col3.dataframe(ebitda_margin(income_statements))
+
+    col4.subheader("EBIT Margin")
+    col4.dataframe(ebit_margin(income_statements))
+
+    col5, col6 = st.columns(2)
+    col5.subheader("Net Profit Margin")
+    col5.dataframe(net_profit_margin(income_statements))
