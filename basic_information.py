@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf 
 
-#Ticker symbol for Oracle
+#Ticker symbol for Cloud Services
 orcl = yf.Ticker("ORCL")
 msft = yf.Ticker("MSFT")
 googl = yf.Ticker("GOOGL")
@@ -21,9 +21,34 @@ def get_multiple_income_statements(ticker_symbols):
         income_statements[symbol] = yf.Ticker.get_income_stmt(ticker)
     return income_statements
 
+
+#Balance Sheet Statements
+def get_multiple_balance_sheet_statements(ticker_symbols):
+    income_statements = {}
+    for symbol in ticker_symbols:
+        ticker = yf.Ticker(symbol)
+        income_statements[symbol] = yf.Ticker.get_balance_sheet(ticker)
+    return income_statements
+
+
+# Cash Flow Statements
+def get_multiple_cash_flow_statements(ticker_symbols):
+    income_statements = {}
+    for symbol in ticker_symbols:
+        ticker = yf.Ticker(symbol)
+        income_statements[symbol] = yf.Ticker.get_cash_flow(ticker)
+    return income_statements
+
+
+# All ticker symbols to be analyzed
 ticker_symbols = ['ORCL', 'MSFT', 'GOOGL', 'ADBE', 'CRM', 'CSCO', 'INTU', 'SAP']
 
+
+# Calls all statements
 income_statements = get_multiple_income_statements(ticker_symbols)
+balance_sheet_statements = get_multiple_balance_sheet_statements(ticker_symbols)
+cash_flow_statements = get_multiple_cash_flow_statements(ticker_symbols)
+
 
 # Calculate profitability ratios
 def gross_margin(income_statements):
@@ -70,6 +95,7 @@ def net_profit_margin(income_statements):
     df1 = pd.DataFrame(grossmargin)
     df1_transpose = df1.transpose()
     return(df1_transpose)
+
 
 #Desired order for income statement
 orcl_desired_index_order =[
@@ -171,6 +197,7 @@ sap_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 
     'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
 ]
 
+
 #All income statements
 orcl_income_statement = income_statements['ORCL'].reindex(orcl_desired_index_order)
 msft_income_statement = income_statements['MSFT'].reindex(msft_desired_index_order)
@@ -182,8 +209,37 @@ intu_income_statement = income_statements['INTU'].reindex(csco_desired_index_ord
 sap_income_statement = income_statements['SAP'].reindex(csco_desired_index_order)
 
 
+#Desired order of balance sheet
+balance_sheet_index_order = [
+    'TotalAssets', 'CurrentAssets', 'CashAndCashEquivalents', 'CashEquivalents', 'Receivables', 'AccountsReceivable', 'PrepaidAssets',
+    'OtherCurrentAssets', 'TotalNonCurrentAssets','NetPPE', 'GoodwillAndOtherIntangibleAssets', 'NonCurrentDeferredAssets', 'OtherNonCurrentAssets',
+    'TotalLiabilitiesNetMinorityInterest', 'CurrentLiabilities', 'PayablesAndAccruedExpenses', 'Payables', 'AccountsPayable', 'PensionandOtherPostRetirementBenefitPlansCurrent',
+    'CurrentDebtAndCapitalLeaseObligation', 'CurrentDebt', 'CurrentDeferredLiabilities', 'OtherCurrentLiabilities','TotalNonCurrentLiabilitiesNetMinorityInterest',
+    'LongTermDebtAndCapitalLeaseObligation', 'LongTermDebt', 'NonCurrentDeferredLiabilities', 'TradeandOtherPayablesNonCurrent', 'OtherNonCurrentLiabilities',
+    'TotalEquityGrossMinorityInterest', 'StockholdersEquity', 'CapitalStock' ,'CommonStock', 'RetainedEarnings', 'GainsLossesNotAffectingRetainedEarnings',
+    'MinorityInterest', 'TotalCapitalization', 'CommonStockEquity', 'NetTangibleAssets', 'WorkingCapital', 'InvestedCapital', 'TangibleBookValue', 'TotalDebt',
+    'NetDebt', 'ShareIssued', 'OrdinarySharesNumber'
+]
+
+
+# All balance sheet statements
+orcl_balance_sheet_statement = balance_sheet_statements['ORCL'].reindex(balance_sheet_index_order)
+msft_balance_sheet_statement = balance_sheet_statements['MSFT'].reindex(balance_sheet_index_order)
+googl_balance_sheet_statement = balance_sheet_statements['GOOGL'].reindex(balance_sheet_index_order)
+adbe_balance_sheet_statement = balance_sheet_statements['ADBE'].reindex(balance_sheet_index_order)
+crm_balance_sheet_statement = balance_sheet_statements['CRM'].reindex(balance_sheet_index_order)
+csco_balance_sheet_statement = balance_sheet_statements['CSCO'].reindex(balance_sheet_index_order)
+intu_balance_sheet_statement = balance_sheet_statements['INTU'].reindex(balance_sheet_index_order)
+sap_balance_sheet_statement = balance_sheet_statements['SAP'].reindex(balance_sheet_index_order)
+
+
+
+
+#Create tabs for streamlit application
 tab1, tab2, tab3, tab4 = st.tabs(["Income Statements", "Balance Sheet Statements", "Cash Flow Statements", "Fundamental Ratios"])
 
+
+# First tab is annual income statements by ticker symbol
 with tab1:
     st.dataframe(
         orcl_income_statement,
@@ -289,6 +345,115 @@ with tab1:
         height=400
     )
 
+
+# Second tab is annual balance sheet statements by ticker symbol
+with tab2:
+    st.dataframe(
+        orcl_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Oracle", width="1800"),
+            "2023-05-31 00:00:00": "2023",
+            "2022-05-31 00:00:00": "2022",
+            "2021-05-31 00:00:00": "2021",
+            "2020-05-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        msft_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Microsoft", width="1800"),
+            "2023-06-30 00:00:00": "2023",
+            "2022-06-30 00:00:00": "2022",
+            "2021-06-30 00:00:00": "2021",
+            "2020-06-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        googl_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Google", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        adbe_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Adobe", width="1800"),
+            "2023-11-30 00:00:00": "2023",
+            "2022-11-30 00:00:00": "2022",
+            "2021-11-30 00:00:00": "2021",
+            "2020-11-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        crm_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Salesforce", width="1800"),
+            "2024-01-31 00:00:00": "2024",
+            "2023-01-31 00:00:00": "2023",
+            "2022-01-31 00:00:00": "2022",
+            "2021-01-31 00:00:00": "2021"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        csco_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Cisco", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        intu_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("Intuit", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        sap_balance_sheet_statement,
+        column_config={
+            "": st.column_config.Column("SAP", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+
+#Fourth tab contains fundamental ratios
 with tab4:
     col1, col2 = st.columns(2)
     col1.subheader("Gross Margin")
