@@ -475,6 +475,112 @@ with tab2:
         height=400
     )
 
+# Cash flow statement visualization
+with tab3:
+    st.dataframe(
+        orcl_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Oracle", width="1800"),
+            "2023-05-31 00:00:00": "2023",
+            "2022-05-31 00:00:00": "2022",
+            "2021-05-31 00:00:00": "2021",
+            "2020-05-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        msft_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Microsoft", width="1800"),
+            "2023-06-30 00:00:00": "2023",
+            "2022-06-30 00:00:00": "2022",
+            "2021-06-30 00:00:00": "2021",
+            "2020-06-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        googl_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Google", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        adbe_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Adobe", width="1800"),
+            "2023-11-30 00:00:00": "2023",
+            "2022-11-30 00:00:00": "2022",
+            "2021-11-30 00:00:00": "2021",
+            "2020-11-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        crm_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Salesforce", width="1800"),
+            "2024-01-31 00:00:00": "2024",
+            "2023-01-31 00:00:00": "2023",
+            "2022-01-31 00:00:00": "2022",
+            "2021-01-31 00:00:00": "2021"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        csco_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Cisco", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        intu_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Intuit", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        sap_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("SAP", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
 
 #Fourth tab contains fundamental ratios
 with tab4:
