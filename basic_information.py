@@ -233,6 +233,29 @@ intu_balance_sheet_statement = balance_sheet_statements['INTU'].reindex(balance_
 sap_balance_sheet_statement = balance_sheet_statements['SAP'].reindex(balance_sheet_index_order)
 
 
+#Desired order of cash flow statement
+cash_flow_statement_index_order = [
+    'OperatingCashFlow', 'CashFlowFromContinuingOperatingActivities', 'NetIncomeFromContinuingOperations', 'DepreciationAmortizationDepletion' ,'DepreciationAndAmortization',
+    'Depreciation', 'AmortizationCashFlow', 'AmortizationOfIntangibles', 'DeferredTax', 'DeferredIncomeTax', 'ProvisionandWriteOffofAssets', 'StockBasedCompensation',
+    'OtherNonCashItems', 'ChangeInWorkingCapital', 'ChangeInReceivables', 'ChangesInAccountReceivables', 'ChangeInPrepaidAssets', 'ChangeInAccountPayable',
+    'ChangeInPayable', 'ChangeInTaxPayable', 'ChangeInIncomeTaxPayable', 'ChangeInAccountPayable', 'ChangeInOtherWorkingCapital', 'InvestingCashFlow', 'CashFlowFromContinuingInvestingActivities',
+    'CapitalExpenditureReported', 'NetBusinessPurchaseAndSale', 'PurchaseOfBusiness', 'NetInvestmentPurchaseAndSale', 'PurchaseOfInvestment', 'SaleOfInvestment',
+    'FinancingCashFlow', 'CashFlowFromContinuingFinancingActivities', 'NetIssuancePaymentsOfDebt', 'NetLongTermDebtIssuance', 'LongTermDebtIssuance', 'LongTermDebtPayments',
+    'NetShortTermDebtIssuance', 'ShortTermDebtIssuance', 'NetCommonStockIssuance', 'CommonStockIssuance', 'CommonStockPayments', 'CashDividendsPaid', 'CommonStockDividendPaid',
+    'NetOtherFinancingCharges', 'EndCashPosition', 'ChangesInCash', 'EffectOfExchangeRateChanges', 'BeginningCashPosition', 'IncomeTaxPaidSupplementalData', 'InterestPaidSupplementalData',
+    'CapitalExpenditure', 'IssuanceOfCapitalStock', 'IssuanceOfDebt', 'RepaymentOfDebt', 'RepurchaseOfCapitalStock', 'FreeCashFlow'
+]
+
+
+#All cash flow statements
+orcl_cash_flow_statement = cash_flow_statements['ORCL'].reindex(cash_flow_statement_index_order)
+msft_cash_flow_statement = cash_flow_statements['MSFT'].reindex(cash_flow_statement_index_order)
+googl_cash_flow_statement = cash_flow_statements['GOOGL'].reindex(cash_flow_statement_index_order)
+adbe_cash_flow_statement = cash_flow_statements['ADBE'].reindex(cash_flow_statement_index_order)
+crm_cash_flow_statement = cash_flow_statements['CRM'].reindex(cash_flow_statement_index_order)
+csco_cash_flow_statement = cash_flow_statements['CSCO'].reindex(cash_flow_statement_index_order)
+intu_cash_flow_statement = cash_flow_statements['INTU'].reindex(cash_flow_statement_index_order)
+sap_cash_flow_statement = cash_flow_statements['SAP'].reindex(cash_flow_statement_index_order)
 
 
 #Create tabs for streamlit application
