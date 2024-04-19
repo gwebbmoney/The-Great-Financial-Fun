@@ -3,16 +3,6 @@ import numpy as np
 import pandas as pd
 import yfinance as yf 
 
-#Ticker symbol for Cloud Services
-orcl = yf.Ticker("ORCL")
-msft = yf.Ticker("MSFT")
-googl = yf.Ticker("GOOGL")
-adbe = yf.Ticker('ADBE')
-crm = yf.Ticker('CRM')
-csco = yf.Ticker('CSCO')
-intu = yf.Ticker('INTU')
-sap = yf.Ticker('SAP')
-
 #Income Statements
 def get_multiple_income_statements(ticker_symbols):
     income_statements = {}
@@ -98,7 +88,7 @@ def net_profit_margin(income_statements):
 
 
 #Desired order for income statement
-orcl_desired_index_order =[
+income_statement_desired_index_order =[
     'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
     'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
     'DepreciationAmortizationDepletionIncomeStatement', 'DepreciationAndAmortizationInIncomeStatement', 'Amortization', 'AmortizationOfIntangiblesIncomeStatement',
@@ -112,101 +102,15 @@ orcl_desired_index_order =[
     'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
 ]
 
-msft_desired_index_order = [
-    'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-googl_desired_index_order = [ 'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-adbe_desired_index_order = [ 'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-crm_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-csco_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-intu_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-sap_desired_index_order = ['TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
-    'GeneralAndAdministrativeExpense', 'SalariesAndWages', 'OtherGandA', 'SellingandMarketingExpense', 'ResearchAndDevelopment',
-    'OperatingIncome', 'NetNonOperatingInterestIncomeExpense', 'InterestIncomeNonOperating', 'InterestExpenseNonOperating',
-    'OtherIncomeExpense', 'GainOnSaleOfSecurity', 'SpecialIncomeCharges', 'WriteOff', 'OtherNonOperatingIncomeExpenses', 
-    'PretaxIncome', 'TaxProvision', 'NetIncomeCommonStockholders', 'NetIncome', 'NetIncomeIncludingNoncontrollingInterests',
-    'NetIncomeContinuousOperations', 'DilutedNIAvailtoComStockholders', 'BasicEPS', 'DilutedEPS', 'BasicAverageShares',
-    'DilutedAverageShares', 'TotalOperatingIncomeAsReported', 'TotalExpenses', 'NetIncomeFromContinuingAndDiscontinuedOperation',
-    'NormalizedIncome', 'InterestIncome', 'InterestExpense', 'NetInterestIncome', 'EBIT', 'EBITDA','ReconciledCostofRevenue',
-    'ReconciledDepreciation', 'NetIncome', 'NetIncomeFromContinuingOperationNetMinorityInterest', 'TotalUnusualItemsExcludingGoodwill',
-    'TotalUnusualItems', 'NormalizedEBITDA', 'TaxRateForCalcs', 'TaxEffectOfUnusualItems'
-]
-
-
 #All income statements
-orcl_income_statement = income_statements['ORCL'].reindex(orcl_desired_index_order)
-msft_income_statement = income_statements['MSFT'].reindex(msft_desired_index_order)
-googl_income_statement = income_statements['GOOGL'].reindex(googl_desired_index_order)
-adbe_income_statement = income_statements['ADBE'].reindex(adbe_desired_index_order)
-crm_income_statement = income_statements['CRM'].reindex(crm_desired_index_order)
-csco_income_statement = income_statements['CSCO'].reindex(csco_desired_index_order)
-intu_income_statement = income_statements['INTU'].reindex(csco_desired_index_order)
-sap_income_statement = income_statements['SAP'].reindex(csco_desired_index_order)
+orcl_income_statement = income_statements['ORCL'].reindex(income_statement_desired_index_order)
+msft_income_statement = income_statements['MSFT'].reindex(income_statement_desired_index_order)
+googl_income_statement = income_statements['GOOGL'].reindex(income_statement_desired_index_order)
+adbe_income_statement = income_statements['ADBE'].reindex(income_statement_desired_index_order)
+crm_income_statement = income_statements['CRM'].reindex(income_statement_desired_index_order)
+csco_income_statement = income_statements['CSCO'].reindex(income_statement_desired_index_order)
+intu_income_statement = income_statements['INTU'].reindex(income_statement_desired_index_order)
+sap_income_statement = income_statements['SAP'].reindex(income_statement_desired_index_order)
 
 
 #Desired order of balance sheet
