@@ -33,7 +33,6 @@ def get_multiple_cash_flow_statements(ticker_symbols):
 # All ticker symbols to be analyzed
 ticker_symbols = ['ORCL', 'MSFT', 'GOOGL', 'ADBE', 'CRM', 'CSCO', 'INTU', 'SAP']
 
-
 # Calls all statements
 income_statements = get_multiple_income_statements(ticker_symbols)
 balance_sheet_statements = get_multiple_balance_sheet_statements(ticker_symbols)
@@ -87,6 +86,18 @@ def net_profit_margin(income_statements):
     return(df1_transpose)
 
 
+# Calculate liquidity ratios
+def working_capital_ratio(balance_sheet):
+    working_capital = {}
+    for keys in balance_sheet.keys():
+        working_capital[keys] = balance_sheet[keys].loc['CurrentAssets']/balance_sheet[keys].loc['CurrentLiabilities']
+        working_capital[keys].index = working_capital[keys].index.strftime('%Y')
+    df1 = pd.DateFrame(working_capital)
+    df1_transpose = df1.transpose()
+    return(df1_transpose)
+
+
+
 #Desired order for income statement
 income_statement_desired_index_order =[
     'TotalRevenue', 'OperatingRevenue', 'CostOfRevenue', 'GrossProfit', 'OperatingExpense', 'SellingGeneralAndAdministration',
@@ -126,7 +137,7 @@ balance_sheet_index_order = [
 ]
 
 
-# All balance sheet statements
+#All balance sheet statements
 orcl_balance_sheet_statement = balance_sheet_statements['ORCL'].reindex(balance_sheet_index_order)
 msft_balance_sheet_statement = balance_sheet_statements['MSFT'].reindex(balance_sheet_index_order)
 googl_balance_sheet_statement = balance_sheet_statements['GOOGL'].reindex(balance_sheet_index_order)
@@ -380,6 +391,113 @@ with tab2:
     )
 
 # Cash flow statement visualization
+with tab3:
+    st.dataframe(
+        orcl_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Oracle", width="1800"),
+            "2023-05-31 00:00:00": "2023",
+            "2022-05-31 00:00:00": "2022",
+            "2021-05-31 00:00:00": "2021",
+            "2020-05-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        msft_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Microsoft", width="1800"),
+            "2023-06-30 00:00:00": "2023",
+            "2022-06-30 00:00:00": "2022",
+            "2021-06-30 00:00:00": "2021",
+            "2020-06-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        googl_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Google", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        adbe_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Adobe", width="1800"),
+            "2023-11-30 00:00:00": "2023",
+            "2022-11-30 00:00:00": "2022",
+            "2021-11-30 00:00:00": "2021",
+            "2020-11-30 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        crm_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Salesforce", width="1800"),
+            "2024-01-31 00:00:00": "2024",
+            "2023-01-31 00:00:00": "2023",
+            "2022-01-31 00:00:00": "2022",
+            "2021-01-31 00:00:00": "2021"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        csco_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Cisco", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        intu_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("Intuit", width="1800"),
+            "2023-07-31 00:00:00": "2023",
+            "2022-07-31 00:00:00": "2022",
+            "2021-07-31 00:00:00": "2021",
+            "2020-07-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+    st.dataframe(
+        sap_cash_flow_statement,
+        column_config={
+            "": st.column_config.Column("SAP", width="1800"),
+            "2023-12-31 00:00:00": "2023",
+            "2022-12-31 00:00:00": "2022",
+            "2021-12-31 00:00:00": "2021",
+            "2020-12-31 00:00:00": "2020"
+        },
+        width=1600,
+        height=400
+    )
+
+
+#Third tab contains cash flow statement information
 with tab3:
     st.dataframe(
         orcl_cash_flow_statement,
