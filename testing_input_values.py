@@ -106,6 +106,78 @@ cash_flow_statement_index_order = [
 ]
 
 
+#Profitability ratios
+def gross_margin(income_statements):
+    grossmargin = {}
+    if len(income_statements) > 0:
+        for keys in income_statements.keys():
+            if len(keys) > 0:
+                grossmargin[keys] = income_statements[keys].loc['GrossProfit']/income_statements[keys].loc['TotalRevenue']
+                grossmargin[keys].index = grossmargin[keys].index.strftime('%Y')
+        df1 = pd.DataFrame(grossmargin)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+    else:
+         pass
+
+def operating_margin(income_statements):
+    operatingmargin = {}
+    if len(income_statements) > 0:
+        for keys in income_statements.keys():
+            if len(keys) > 0:
+                operatingmargin[keys] = income_statements[keys].loc['OperatingIncome']/income_statements[keys].loc['TotalRevenue']
+                operatingmargin[keys].index = operatingmargin[keys].index.strftime('%Y')
+        df1 = pd.DataFrame(operatingmargin)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+
+def ebitda_margin(income_statements):
+    ebitdamargin = {}
+    if len(income_statements) > 0:
+        for keys in income_statements.keys():
+            if len(keys) > 0:
+                ebitdamargin[keys] = income_statements[keys].loc['EBITDA']/income_statements[keys].loc['TotalRevenue']
+                ebitdamargin[keys].index = ebitdamargin[keys].index.strftime('%Y')
+        df1 = pd.DataFrame(ebitdamargin)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+
+def ebit_margin(income_statements):
+    ebitmargin = {}
+    if len(income_statements) > 0:
+        for keys in income_statements.keys():
+            if len(keys) > 0:
+                ebitmargin[keys] = income_statements[keys].loc['EBIT']/income_statements[keys].loc['TotalRevenue']
+                ebitmargin[keys].index = ebitmargin[keys].index.strftime('%Y')
+        df1 = pd.DataFrame(ebitmargin)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+
+def net_profit_margin(income_statements):
+    netprofitmargin = {}
+    if len(income_statements) > 0:
+        for keys in income_statements.keys():
+            if len(keys) > 0:
+                netprofitmargin[keys] = income_statements[keys].loc['NetIncome']/income_statements[keys].loc['TotalRevenue']
+                netprofitmargin[keys].index = netprofitmargin[keys].index.strftime('%Y')
+        df1 = pd.DataFrame(netprofitmargin)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+
+
+# Calculate liquidity ratios
+def working_capital_ratio(balance_sheet):
+    working_capital = {}
+    if len(balance_sheet) > 0:
+        for keys in balance_sheet.keys():
+            if len(keys) > 0:
+                working_capital[keys] = balance_sheet[keys].loc['CurrentAssets']/balance_sheet[keys].loc['CurrentLiabilities']
+                working_capital[keys].index = working_capital[keys].index.strftime('%Y')
+        df1 = pd.DateFrame(working_capital)
+        df1_transpose = df1.transpose()
+        return(df1_transpose)
+
+
 #Income statement information
 with tab2:
     if len(keys_list) >= 1 and len(list(multiple_income_statements.keys())) >= 1:
@@ -519,3 +591,23 @@ with tab4:
                     )
             else:
                 pass
+
+
+with tab5:
+    col1, col2 = st.columns(2)
+    col1.subheader("Gross Margin")
+    col1.dataframe(gross_margin(multiple_income_statements))
+
+    col2.subheader("Operating Margin")
+    col2.dataframe(operating_margin(multiple_income_statements))
+
+    col3, col4 = st.columns(2)
+    col3.subheader("EBITDA Margin")
+    col3.dataframe(ebitda_margin(multiple_income_statements))
+
+    col4.subheader("EBIT Margin")
+    col4.dataframe(ebit_margin(multiple_income_statements))
+
+    col5, col6 = st.columns(2)
+    col5.subheader("Net Profit Margin")
+    col5.dataframe(net_profit_margin(multiple_income_statements))
